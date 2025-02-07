@@ -16,7 +16,12 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // Allow CORS
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // Your frontend's URL
+    credentials: true, // Allow cookies to be sent
+  })
+);
 
 app.use(mongoSanitize());
 

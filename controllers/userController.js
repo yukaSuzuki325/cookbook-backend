@@ -72,6 +72,7 @@ const logoutUser = (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
+  console.log('getUser called');
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -91,7 +92,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  console.log(user);
 
   if (user) {
     user.name = req.body.name || user.name;

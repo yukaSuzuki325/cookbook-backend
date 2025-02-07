@@ -13,8 +13,6 @@ const protect = asyncHandler(async (req, res, next) => {
       req.user = await User.findById(decoded.userId).select('-password'); //accessing the userId that was passed as a payload when generating token
       //req.user can be accessed anywhere in the app now
 
-      console.log(req.user);
-
       next(); //calls either 'updateUserProfile' or 'getUserProfile' depending on the route
     } catch (error) {
       res.status(401);
