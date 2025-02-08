@@ -139,6 +139,7 @@ const updateRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   try {
     const { id } = req.params; // Get recipe ID from the request parameters
+    console.log('req.params', req.params);
 
     // Find the recipe by ID
     const recipe = await Recipe.findById(id);
