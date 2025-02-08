@@ -173,30 +173,55 @@ const deleteRecipe = async (req, res) => {
 
 // Bookmark a Recipe
 const bookmarkRecipe = async (req, res) => {
+  console.log('Request params:', req.params); // Log params
+  console.log('Request user:', req.user); // Log authenticated user
   const { id: recipeId } = req.params;
   const user = req.user;
 
   try {
     // Check if the recipe is already bookmarked
-    const alreadyBookmarked = user.bookmarks.includes(recipeId);
+    let alreadyBookmarked = user.bookmarks.includes(recipeId);
+    let message;
 
     if (alreadyBookmarked) {
       // Remove the bookmark if it already exists
-      user.bookmarks = user.bookmarks.filter(
-        (id) => id.toString() !== recipeId
-      );
-      await user.save();
-      return res.json({ message: 'Recipe removed from bookmarks' });
+      user.bookmarks.pull(recipeId);
+      message = 'Bookmark removed';
+      alreadyBookmarked = false;
+    } else {
+      // If not bookmarked, add it
+      user.bookmarks.push(recipeId);
+      message = 'Bookmark added successfully';
+      alreadyBookmarked = true;
     }
 
-    // Add the recipe to bookmarks
-    user.bookmarks.push(recipeId);
     await user.save();
 
-    res.json({ message: 'Recipe bookmarked successfully' });
+    res.json({ message });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Check if a recipe is bookmarked
+const isRecipeBookmarked = async (req, res) => {
+  const userId = req.user._id;
+  const { id: recipeId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+
+    const alreadyBookmarked = user.bookmarks.includes(recipeId);
+
+    res.status(200).json({ bookmarked: alreadyBookmarked });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -207,4 +232,5 @@ export {
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  isRecipeBookmarked,
 };

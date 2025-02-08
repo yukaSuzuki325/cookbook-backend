@@ -6,6 +6,7 @@ import {
   updateRecipe,
   deleteRecipe,
   bookmarkRecipe,
+  isRecipeBookmarked,
 } from '../controllers/recipeController.js'; // Import controllers
 import { protect } from '../middleware/authMiddleware.js'; // Import protect middleware
 
@@ -24,5 +25,8 @@ router
 
 // Bookmark a Recipe
 router.route('/:id/bookmark').post(protect, bookmarkRecipe);
+
+// Check if a recipe is bookmarked
+router.route('/:id/bookmarked').get(protect, isRecipeBookmarked);
 
 export default router;
