@@ -15,7 +15,7 @@ const router = express.Router();
 
 // Define specific routes before dynamic routes
 router.route('/bookmarked').get(protect, getBookmarkedRecipes);
-router.route('/user/:userId').get(getUserRecipes);
+router.route('/user/:userId').get(protect, getUserRecipes);
 
 router.route('/').get(getRecipes).post(protect, createRecipe);
 
