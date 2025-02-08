@@ -7,14 +7,16 @@ import {
   deleteRecipe,
   bookmarkRecipe,
   isRecipeBookmarked,
-} from '../controllers/recipeController.js'; // Import controllers
-import { protect } from '../middleware/authMiddleware.js'; // Import protect middleware
+  getUserRecipes,
+} from '../controllers/recipeController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 // Public Routes
 router.route('/').get(getRecipes); // Get all recipes
 router.route('/:id').get(getRecipeById); // Get a single recipe by ID
+router.route('/user/:userId').get(getUserRecipes); // Get recipes created by a specific user
 
 // Protected Routes
 router.route('/').post(protect, createRecipe); // Create a new recipe

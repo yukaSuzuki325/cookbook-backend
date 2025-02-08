@@ -84,6 +84,20 @@ const createRecipe = async (req, res) => {
   }
 };
 
+// Get recipes created by user
+const getUserRecipes = async (req, res) => {
+  const { userId } = req.params; // Extract userId from route parameter
+  console.log('userId:', userId);
+
+  try {
+    const recipes = await Recipe.find({ user: userId }); // Find recipes by user ID
+    res.status(200).json(recipes); // Return recipes
+  } catch (error) {
+    console.error('Error fetching user recipes:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 //Edit a recipe
 const updateRecipe = async (req, res) => {
   try {
@@ -229,6 +243,7 @@ export {
   bookmarkRecipe,
   getRecipes,
   getRecipeById,
+  getUserRecipes,
   createRecipe,
   updateRecipe,
   deleteRecipe,
