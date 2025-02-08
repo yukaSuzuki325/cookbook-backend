@@ -6,29 +6,25 @@ import {
   updateRecipe,
   deleteRecipe,
   bookmarkRecipe,
-  isRecipeBookmarked,
   getUserRecipes,
+  getBookmarkedRecipes,
 } from '../controllers/recipeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Public Routes
-router.route('/').get(getRecipes); // Get all recipes
-router.route('/:id').get(getRecipeById); // Get a single recipe by ID
-router.route('/user/:userId').get(getUserRecipes); // Get recipes created by a specific user
+// Define specific routes before dynamic routes
+router.route('/bookmarked').get(protect, getBookmarkedRecipes);
+router.route('/user/:userId').get(getUserRecipes);
 
-// Protected Routes
-router.route('/').post(protect, createRecipe); // Create a new recipe
+router.route('/').get(getRecipes).post(protect, createRecipe);
+
 router
   .route('/:id')
-  .put(protect, updateRecipe) // Update a recipe
-  .delete(protect, deleteRecipe); // Delete a recipe
+  .get(getRecipeById)
+  .put(protect, updateRecipe)
+  .delete(protect, deleteRecipe);
 
-// Bookmark a Recipe
 router.route('/:id/bookmark').post(protect, bookmarkRecipe);
-
-// Check if a recipe is bookmarked
-router.route('/:id/bookmarked').get(protect, isRecipeBookmarked);
 
 export default router;

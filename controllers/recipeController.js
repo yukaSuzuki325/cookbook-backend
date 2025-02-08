@@ -239,6 +239,20 @@ const isRecipeBookmarked = async (req, res) => {
   }
 };
 
+// Get bookmarked recipes for the logged-in user
+const getBookmarkedRecipes = async (req, res) => {
+  const userId = req.user._id; // Get the logged-in user's ID from the `protect` middleware
+  console.log('Fetching bookmarked recipes for user:', userId);
+
+  try {
+    const { bookmarks } = await User.findById(userId).populate('bookmarks');
+    res.status(200).json(bookmarks);
+  } catch (error) {
+    console.error('Error fetching bookmarked recipes:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 export {
   bookmarkRecipe,
   getRecipes,
@@ -248,4 +262,5 @@ export {
   updateRecipe,
   deleteRecipe,
   isRecipeBookmarked,
+  getBookmarkedRecipes,
 };
