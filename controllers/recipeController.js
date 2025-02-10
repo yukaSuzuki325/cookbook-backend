@@ -39,6 +39,8 @@ const getRecipeById = async (req, res) => {
 
 //Post a recipe
 const createRecipe = async (req, res) => {
+  console.log('req.body', req.body);
+
   const {
     title,
     description,
@@ -59,7 +61,7 @@ const createRecipe = async (req, res) => {
     !servings ||
     !category
   ) {
-    return res.status(400).jason({ message: 'All fields are required' });
+    return res.status(400).json({ message: 'All fields are required' });
   }
 
   try {
@@ -242,13 +244,11 @@ const getBookmarkedRecipes = async (req, res) => {
 
 // Get recipes created by user
 const getUserRecipes = async (req, res) => {
-  //const { userId } = req.params;
-
   const userId = req.user._id;
   console.log('userId:', userId);
 
   try {
-    const recipes = await Recipe.find({ user: userId }); // Find recipes by user ID
+    const recipes = await Recipe.find({ user: userId }).sort({ createdAt: -1 });
     res.status(200).json(recipes); // Return recipes
   } catch (error) {
     console.error('Error fetching user recipes:', error);

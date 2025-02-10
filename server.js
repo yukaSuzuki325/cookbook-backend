@@ -8,6 +8,7 @@ import connectDB from './config/db.js';
 const port = process.env.PORT || 5000;
 import userRoutes from './routes/userRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
+import imageRoutes from './routes/imageRoutes.js';
 import mongoSanitize from 'express-mongo-sanitize';
 
 connectDB();
@@ -27,6 +28,7 @@ app.use(mongoSanitize());
 
 app.use(cookieParser());
 
+app.use('/api/images', imageRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.get('/', (req, res) => {
