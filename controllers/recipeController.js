@@ -88,8 +88,11 @@ const createRecipe = async (req, res) => {
 
 //Edit a recipe
 const updateRecipe = async (req, res) => {
+  console.log('req.body', req.body);
+
   try {
-    const { id } = req.params; // Get recipe ID from the request parameters
+    const { id } = req.params;
+    console.log('recipe id', id);
 
     // Find the recipe by ID
     const recipe = await Recipe.findById(id);

@@ -8,6 +8,7 @@ import {
   bookmarkRecipe,
   getUserRecipes,
   getBookmarkedRecipes,
+  isRecipeBookmarked,
 } from '../controllers/recipeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -26,5 +27,6 @@ router
   .delete(protect, deleteRecipe);
 
 router.route('/:id/bookmark').post(protect, bookmarkRecipe);
+router.route('/:id/bookmarked').get(protect, isRecipeBookmarked);
 
 export default router;
