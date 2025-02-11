@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 import userRoutes from './routes/userRoutes.js';
 import recipeRoutes from './routes/recipeRoutes.js';
 import imageRoutes from './routes/imageRoutes.js';
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Your frontend's URL
+    origin: 'http://localhost:3000',
     credentials: true, // Allow cookies to be sent
   })
 );
